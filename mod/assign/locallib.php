@@ -1243,13 +1243,16 @@ class assign {
                          SET cutoffdate = cutoffdate + ?
                        WHERE assignid =? AND cutoffdate <> 0",
                 array($data->timeshift, $this->get_instance()->id));
-
+            $DB->execute("UPDATE {assign_overrides}
+                         SET gradingduedate = gradingduedate + ?
+                       WHERE assignid =? AND gradingduedate <> 0",
+                array($data->timeshift, $this->get_instance()->id));
             $purgeoverrides = true;
 
             // Any changes to the list of dates that needs to be rolled should be same during course restore and course reset.
             // See MDL-9367.
             shift_course_mod_dates('assign',
-                                    array('duedate', 'allowsubmissionsfromdate', 'cutoffdate'),
+                                    array('duedate', 'allowsubmissionsfromdate', 'cutoffdate', 'gradingduedate'),
                                     $data->timeshift,
                                     $data->courseid, $this->get_instance()->id);
             $status[] = array('component'=>$componentstr,
