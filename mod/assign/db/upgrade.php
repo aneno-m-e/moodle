@@ -59,5 +59,22 @@ function xmldb_assign_upgrade($oldversion) {
     // Automatically generated Moodle v3.9.0 release upgrade line.
     // Put any upgrade step following this.
 
+    // Automatically generated Moodle v4.0.0 release upgrade line.
+    // Put any upgrade step following this.
+    if ($oldversion < 2021052503) {
+
+        // Define field gradingduedate to be added to assign_overrides.
+        $table = new xmldb_table('assign_overrides');
+        $field = new xmldb_field('gradingduedate', XMLDB_TYPE_INTEGER, '10', null, null, null, null, 'cutoffdate');
+
+        // Conditionally launch add field gradingduedate.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Assign savepoint reached.
+        upgrade_mod_savepoint(true, 2021052503, 'assign');
+    }
+
     return true;
 }
