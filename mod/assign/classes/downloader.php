@@ -97,7 +97,7 @@ class downloader {
         // Load all users with submit.
         $students = get_enrolled_users(
             $manager->get_context(),
-            "mod/assign:submit",
+            "",
             0,
             'u.*',
             null,
